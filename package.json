@@ -13,8 +13,10 @@
     "@ampt/data": "^1",
     "@ampt/nextjs": "^2",
     "@ampt/sdk": "^1",
+    "ace-builds": "^1.31.1",
     "next": "13.5.4",
     "react": "^18",
+    "react-ace": "^10.1.0",
     "react-dom": "^18"
   },
   "devDependencies": {
@@ -32,5 +34,8 @@
     "app": "service-hub",
     "runtime": "nodejs18",
     "org": "willbaseleres853518"
-  }
+  },
+  "files": [
+    "*"
+  ]
 }

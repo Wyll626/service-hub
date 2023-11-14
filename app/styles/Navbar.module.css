@@ -1,0 +1,25 @@
+/* Navbar.module.css */
+.navbar {
+  display: flex;
+  justify-content: center;
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+}
+
+.homeLink {
+  position: absolute;
+  left: 10px;
+  color: white;
+  text-decoration: none;
+}
+
+.navLink {
+  margin: 0 10px;
+  color: white;
+  text-decoration: none;
+}
+
+.navLink:hover {
+  text-decoration: underline;
+}

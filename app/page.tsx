@@ -3,7 +3,7 @@ import { Suspense } from "react";
 
 export const revalidate = 0;
 
-import { Feed, FeedSkeleton } from "./components/feed";
+import { Feed, FeedSkeleton } from "./components/Feed";
 
 export default function Home() {
   return (
