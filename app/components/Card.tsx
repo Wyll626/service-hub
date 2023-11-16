@@ -19,6 +19,7 @@ const Card: React.FC<{
 }) => {
   const [editorData, setEditorData] = useState(JSON.stringify(initialData, null, 2));
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [errorDialog, setErrorDialog] = useState<string | null>(null);
 
   const handleDataChange = (newValue: string) => {
     setEditorData(newValue);
@@ -37,7 +38,8 @@ const Card: React.FC<{
       location.reload();
     } catch (error) {
       console.error('Invalid JSON:', error);
-      // Handle invalid JSON error (e.g., show an alert to the user)
+      // Set the error message for the dialog
+      setErrorDialog(error.message);
     }
   };
 
@@ -88,12 +90,18 @@ const Card: React.FC<{
         <button onClick={handleSubmit} className={styles.submitButton}>Submit</button>
       </div>
 
-      {/* Delete confirmation modal */}
       {showDeleteConfirmation && (
         <div className={styles.deleteConfirmation}>
           <p>Are you sure you want to delete this card?</p>
           <button onClick={confirmDelete} className={styles.confirmDeleteButton}>Yes</button>
           <button onClick={cancelDelete} className={styles.cancelDeleteButton}>No</button>
+        </div>
+      )}
+
+      {errorDialog && (
+        <div className={styles.deleteConfirmation}>
+          <p>{errorDialog}</p>
+          <button onClick={() => setErrorDialog(null)} className={styles.submitButton}>Close</button>
         </div>
       )}
     </div>
