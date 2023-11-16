@@ -8,14 +8,16 @@ import styles from '../styles/LookupPage.module.css';
 
 const LookupPage: React.FC = () => {
   const searchParams = useSearchParams();
-  const param = searchParams.get('type')
-  const [data, setData] = useState(null); // State to store the response data
+  const param = searchParams?.get('type')
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [data, setData] = useState([]); // State to store the response data
 
   useEffect(() => {
     // Define the function to fetch data
     const fetchData = async () => {
       try {
-        const response = await fetch('https://lookup.olive-team.com/get', {
+        setIsLoaded(false);
+        const response = await fetch('https://lookup.sb3.olive-team.com/get', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -28,6 +30,7 @@ const LookupPage: React.FC = () => {
         }
 
         const result = await response.json();
+        setIsLoaded(true);
         setData(result); // Set the response data to state
       } catch (error) {
         console.error('Fetching error:', error);
@@ -40,16 +43,17 @@ const LookupPage: React.FC = () => {
   // Render the fetched data or a loading state
   return (
     <div>
-      <h1>Lookup Page</h1>
       <div className={styles.cardContainer}>
-        {data ?
+        <Card title={"New Service"} initialData={{}} />
+        {data.length ?
           data.map((entry, index) => {
             const data = JSON.parse(entry)
-            return <Card key={index} title={data.name} data={data} />
+            return <Card key={data.id} title={data.name} initialData={data} />
           })
           : (
-            <p>Loading...</p>
+            <p>{isLoaded ? "No entries available" : "Loading..."}</p>
           )}
+
       </div>
     </div>
   );

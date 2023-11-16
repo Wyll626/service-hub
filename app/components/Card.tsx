@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AceEditor from 'react-ace';
 import styles from '../styles/Card.module.css';
 
@@ -6,30 +6,96 @@ import styles from '../styles/Card.module.css';
 import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/theme-monokai';
 
-const Card: React.FC<{ title: string; data: any; onDataChange: (newData: any) => void }> = ({ title, data, onDataChange }) => {
+const Card: React.FC<{ 
+  title: string;
+  initialData: any;
+  onSubmit?: (newData: any) => void;
+  onDelete?: (newData: any) => void;
+}> = ({ 
+  title, 
+  initialData, 
+  onSubmit = (_newData: any) => { },
+  onDelete = (_newData: any) => { }
+}) => {
+  const [editorData, setEditorData] = useState(JSON.stringify(initialData, null, 2));
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
   const handleDataChange = (newValue: string) => {
+    setEditorData(newValue);
+  };
+
+  const handleSubmit = async () => {
     try {
-      const parsedData = JSON.parse(newValue);
-      onDataChange(parsedData);
+      const parsedData = JSON.parse(editorData);
+      onSubmit(parsedData);
+
+      await fetch("https://lookup.sb3.olive-team.com/add", {
+        method: 'POST',
+        body: editorData
+      });
+
+      location.reload();
     } catch (error) {
       console.error('Invalid JSON:', error);
+      // Handle invalid JSON error (e.g., show an alert to the user)
     }
+  };
+
+  const handleDelete = () => {
+    // Show delete confirmation modal
+    setShowDeleteConfirmation(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      const parsedData = JSON.parse(editorData);
+      onDelete(parsedData);
+
+      await fetch("https://lookup.sb3.olive-team.com/delete", {
+        method: 'POST',
+        body: JSON.stringify({id: parsedData.id}) // Adjust the API endpoint and payload as needed for deletion
+      });
+
+      location.reload();
+    } catch (error) {
+      console.error('Error deleting:', error);
+      // Handle delete error (e.g., show an alert to the user)
+    } finally {
+      // Close the confirmation modal
+      setShowDeleteConfirmation(false);
+    }
+  };
+
+  const cancelDelete = () => {
+    // Close the confirmation modal without deleting
+    setShowDeleteConfirmation(false);
   };
 
   return (
     <div className={styles.card}>
-      <h3>{title}</h3>
+      <h3 className={styles.cardTitle}>{title}</h3>
       <AceEditor
         mode="json"
-        theme="monokai"
-        value={JSON.stringify(data, null, 2)}
+        value={editorData}
         onChange={handleDataChange}
-        name={`ace-editor-${title}`} // Unique ID for the editor
+        name={`ace-editor-${title}`}
         editorProps={{ $blockScrolling: true }}
-        setOptions={{
-          useWorker: false // Disable syntax checking
-        }}
+        setOptions={{ useWorker: false }}
+        className={styles.aceEditorCustom}
       />
+      <div className={styles.buttonContainer}>
+        <button onClick={handleDelete} className={styles.deleteButton}>Delete</button>
+        <button onClick={handleSubmit} className={styles.submitButton}>Submit</button>
+      </div>
+
+      {/* Delete confirmation modal */}
+      {showDeleteConfirmation && (
+        <div className={styles.deleteConfirmation}>
+          <p>Are you sure you want to delete this card?</p>
+          <button onClick={confirmDelete} className={styles.confirmDeleteButton}>Yes</button>
+          <button onClick={cancelDelete} className={styles.cancelDeleteButton}>No</button>
+        </div>
+      )}
     </div>
   );
 };

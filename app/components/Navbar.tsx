@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import styles from '../styles/Navbar.module.css';
 
-const serviceTypes = ["service", "endpoint", "mapper"];
+const serviceTypes = ["service", "api", "endpoint", "mapper", "connector", "schema"];
 
 function capitalizeFirstLetter(str:string) {
   if (!str) return str; // return original string if it's empty
@@ -14,6 +14,9 @@ const Navbar: React.FC = () => {
     <nav className={styles.navbar}>
       <Link className={styles.homeLink} href="/">
         Home
+      </Link>
+      <Link className={styles.navLink} href={`/lookup`}>
+            All
       </Link>
       {serviceTypes.map(type => {
         return (

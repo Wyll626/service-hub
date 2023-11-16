@@ -1,9 +1,100 @@
+/* Card.module.css */
+
 .card {
-  flex: 1 1 200px; /* Adjust the flex-basis as per your design */
   border: 1px solid #ccc;
   border-radius: 8px;
-  margin: 8px;
   padding: 16px;
+  margin-bottom: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: white;
+  position: relative; /* Needed for absolute positioning of the buttons */
+}
+
+.cardTitle {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.aceEditorCustom {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  /* Additional styling as needed */
+}
+
+.buttonContainer {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+}
+
+.submitButton {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px; /* Add margin between buttons */
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}
+
+.deleteButton {
+  padding: 8px 16px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+}
+
+/* Delete confirmation modal */
+.deleteConfirmation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 16px;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.confirmDeleteButton {
+  margin-right: 8px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.confirmDeleteButton:hover {
+  background-color: #c82333;
+}
+
+.cancelDeleteButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.cancelDeleteButton:hover {
+  background-color: #0056b3;
 }
