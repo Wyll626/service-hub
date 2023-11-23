@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import styles from '../styles/Navbar.module.css';
 
-const serviceTypes = ["service", "api", "endpoint", "mapper", "connector", "schema"];
+const serviceTypes = ["service", "endpoint", "mapper", "connector", "schema"];
 
 function capitalizeFirstLetter(str:string) {
   if (!str) return str; // return original string if it's empty

@@ -36,7 +36,7 @@ const Card: React.FC<{
       });
 
       location.reload();
-    } catch (error) {
+    } catch (error:any) {
       console.error('Invalid JSON:', error);
       // Set the error message for the dialog
       setErrorDialog(error.message);
